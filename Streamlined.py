@@ -8,25 +8,7 @@ import time
 import pandas as pd
 from dependencies import beginPlot
 from dependencies import EuclidDistance
-
-class Target: 
-    def __init__(self, img):
-        self.image = img
-        self.greyImage = cv2.cvtColor(img,cv2.COLOR_BGR2GRAY)
-        self.width, self.height = self.greyImage.shape[::-1]
-        self.yList = []
-        self.xList = []
-
-    def addCoordinates(self,x,y):
-        self.xCoordinate = x
-        self.yCoordinate = y        
-        self.xList.append(x)
-        self.yList.append(y)
-
-    def DrawOnFrame (self, frame, borderSize, color = (0,255,0)):
-        cv2.rectangle(frame, (self.xCoordinate,self.yCoordinate), 
-        (self.xCoordinate + self.width, self.yCoordinate + self.height) ,color,borderSize)
-
+from dependencies import Target
 
 # Plotting 
 X_AXISLIM = (0,650)
@@ -94,4 +76,3 @@ plt.show()
 
 cv2.destroyAllWindows()
 cap.release()
-

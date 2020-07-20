@@ -3,6 +3,25 @@ import pandas as pd
 from matplotlib import pyplot as plt
 from matplotlib import style
 
+class Target: 
+    def __init__(self, img):
+        self.image = img
+        self.greyImage = cv2.cvtColor(img,cv2.COLOR_BGR2GRAY)
+        self.width, self.height = self.greyImage.shape[::-1]
+        self.yList = []
+        self.xList = []
+
+    def addCoordinates(self,x,y):
+        self.xCoordinate = x
+        self.yCoordinate = y        
+        self.xList.append(x)
+        self.yList.append(y)
+
+    def DrawOnFrame (self, frame, borderSize, color = (0,255,0)):
+        cv2.rectangle(frame, (self.xCoordinate,self.yCoordinate), 
+        (self.xCoordinate + self.width, self.yCoordinate + self.height) ,color,borderSize)
+
+
 def EuclidDistance(x,y,x2,y2):
     x0 = mean(x)
     y0 = mean(y)
@@ -12,6 +31,18 @@ def EuclidDistance(x,y,x2,y2):
     ydist = y1-y0
     total_dist = ((xdist**2)+(ydist**2))**(1/2)  
     return (total_dist)
+
+def beginPlot(X_AXISLIM, Y_AXISLIM, title):
+
+    fig, ax1 = plt.subplots()
+    ax1.set_xlim(X_AXISLIM)
+    ax1.set_ylim(Y_AXISLIM)
+    ax1.set_xlabel('X-Axis')
+    ax1.set_ylabel('Y-Axis')
+    ax1.set_title(title)
+    ax1.grid(True) 
+
+    return(ax1, fig)
 
 def MovingAverage(loc1,loc2,windowsize):
     res = list(zip(*loc1))
@@ -44,15 +75,3 @@ def MovingAverage(loc1,loc2,windowsize):
     Y2 = moving_averages_list[windowsize - 1:]
 
     return(X,Y,X2,Y2)
-
-def beginPlot(X_AXISLIM, Y_AXISLIM, title):
-
-    fig, ax1 = plt.subplots()
-    ax1.set_xlim(X_AXISLIM)
-    ax1.set_ylim(Y_AXISLIM)
-    ax1.set_xlabel('X-Axis')
-    ax1.set_ylabel('Y-Axis')
-    ax1.set_title(title)
-    ax1.grid(True) 
-
-    return(ax1, fig)
