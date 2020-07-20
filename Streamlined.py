@@ -1,11 +1,8 @@
 import cv2
 import numpy as np
 from matplotlib import pyplot as plt
-from matplotlib import style
-from statistics import mean
 from matplotlib.animation import FuncAnimation
 import time
-import pandas as pd
 from dependencies import beginPlot
 from dependencies import EuclidDistance
 from dependencies import Target
