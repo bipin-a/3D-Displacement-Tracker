@@ -1,5 +1,7 @@
 from statistics import mean
 import pandas as pd
+from matplotlib import pyplot as plt
+from matplotlib import style
 
 def EuclidDistance(x,y,x2,y2):
     x0 = mean(x)
@@ -11,11 +13,11 @@ def EuclidDistance(x,y,x2,y2):
     total_dist = ((xdist**2)+(ydist**2))**(1/2)  
     return (total_dist)
 
-# Moving Average of the first Object
 def MovingAverage(loc1,loc2,windowsize):
     res = list(zip(*loc1))
     res2 = list(zip(*loc2))
-
+    
+    # Moving Average of the first Object
     numbers_series = pd.Series(res[0])
     windows = numbers_series.rolling(windowsize)
     moving_averages = windows.mean()
@@ -42,3 +44,15 @@ def MovingAverage(loc1,loc2,windowsize):
     Y2 = moving_averages_list[windowsize - 1:]
 
     return(X,Y,X2,Y2)
+
+def beginPlot(X_AXISLIM, Y_AXISLIM, title):
+
+    fig, ax1 = plt.subplots()
+    ax1.set_xlim(X_AXISLIM)
+    ax1.set_ylim(Y_AXISLIM)
+    ax1.set_xlabel('X-Axis')
+    ax1.set_ylabel('Y-Axis')
+    ax1.set_title(title)
+    ax1.grid(True) 
+
+    return(ax1, fig)
