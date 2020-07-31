@@ -2,6 +2,7 @@ from statistics import mean
 import pandas as pd
 from matplotlib import pyplot as plt
 from matplotlib import style
+import cv2
 
 class Target: 
     def __init__(self, img):

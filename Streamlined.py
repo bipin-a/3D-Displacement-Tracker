@@ -1,11 +1,8 @@
 import cv2
 import numpy as np
 from matplotlib import pyplot as plt
-from matplotlib.animation import FuncAnimation
 import time
-from dependencies import beginPlot
-from dependencies import EuclidDistance
-from dependencies import Target
+from dependencies import beginPlot, EuclidDistance, Target
 
 # Plotting 
 X_AXISLIM = (0,650)
@@ -17,11 +14,11 @@ BORDER = 2
 THRES = 0.8
 PHYSICALDISTANCE = 4
 
-cap = cv2.VideoCapture(0)   # Begin capturing video from default camera source
-
 # Instantiating two target objects
 template = Target(img=cv2.imread('#.png'))
 template2 = Target(img= cv2.imread('!.png'))
+
+cap = cv2.VideoCapture(0)   # Begin capturing video from default camera source
 
 # Begin Timer
 t = []
@@ -40,20 +37,21 @@ while True:
     locations = np.where(results>=THRES)
     Ys = locations[0].tolist()
     Xs = locations[1].tolist()
-    if len(Xs) != 0:           # Can test either Xs or Ys, ensuring that object is detected
-        template.addCoordinates(x = Xs[-1], y = Ys[-1])
-        template.DrawOnFrame(frame=frame,borderSize= BORDER)
 
     # Matching second target
     results2 = cv2.matchTemplate(gray_frame, template2.greyImage, cv2.TM_CCOEFF_NORMED) 
     locations2 = np.where(results2>=THRES)
     Y2s = locations2[0].tolist()
     X2s = locations2[1].tolist() 
-    if len(X2s) != 0:           
+
+    if not len(Xs) == 0 and not len(X2s) == 0:           # Can test either Xs or Ys, ensuring that object is detected
+        template.addCoordinates(x = Xs[-1], y = Ys[-1])
+        template.DrawOnFrame(frame=frame,borderSize= BORDER)
+
         template2.addCoordinates(x = X2s[-1], y = Y2s[-1])
         template2.DrawOnFrame(frame=frame,borderSize= BORDER, color= (255,255,0))
 
-    
+
     cv2.imshow("frame",frame)
     if cv2.waitKey(1) & 0xFF == ord('q'): 
         break
